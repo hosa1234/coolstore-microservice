@@ -956,7 +956,7 @@ objects:
           value: ${MAVEN_MIRROR_URL}
         from:
           kind: ImageStreamTag
-          name: jboss-decisionserver63-openshift:1.3
+          name: jboss-decisionserver63-openshift:1.4
           namespace: openshift
       type: Source
     triggers:
