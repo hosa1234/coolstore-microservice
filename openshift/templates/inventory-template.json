@@ -23,7 +23,7 @@
       "description": "Git source URI for application",
       "displayName": "Git repository",
       "name": "GIT_URI",
-      "value": "https://github.com/jbossdemocentral/coolstore-microservice",
+      "value": "https://github.com/heatmiser/coolstore-microservice",
       "required": true
     },
     {
@@ -103,7 +103,7 @@
             "from": {
               "kind": "ImageStreamTag",
               "namespace": "openshift",
-              "name": "jboss-eap70-openshift:1.4"
+              "name": "jboss-eap70-openshift:1.5"
             },
             "incremental" : true,
             "env": [
