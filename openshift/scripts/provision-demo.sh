@@ -118,7 +118,7 @@ PRJ_INVENTORY=inventory-dev-$PRJ_SUFFIX
 PRJ_DEVELOPER=developer-$PRJ_SUFFIX
 
 # config
-GITHUB_ACCOUNT=${GITHUB_ACCOUNT:-jbossdemocentral}
+GITHUB_ACCOUNT=${GITHUB_ACCOUNT:-heatmiser}
 GITHUB_REF=${GITHUB_REF:-stable-ocp-3.5}
 GITHUB_URI=https://github.com/$GITHUB_ACCOUNT/coolstore-microservice.git
 
@@ -204,7 +204,7 @@ function create_projects() {
   echo "Creating project $PRJ_COOLSTORE_PROD"
   oc new-project $PRJ_COOLSTORE_PROD --display-name='CoolStore PROD' --description='CoolStore Production Environment' >/dev/null
   echo "Creating project $PRJ_INVENTORY"
-  oc new-project $PRJ_INVENTORY --display-name='Inventory TEST' --description='Inventory Test Environment' >/dev/null
+  oc new-project $PRJ_INVENTORY --display-name='Inventory DEV' --description='Inventory Dev Environment' >/dev/null
   echo "Creating project $PRJ_DEVELOPER"
   oc new-project $PRJ_DEVELOPER --display-name='Developer Project' --description='Personal Developer Project' >/dev/null
 
