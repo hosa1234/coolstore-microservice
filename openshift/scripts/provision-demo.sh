@@ -16,7 +16,7 @@ function usage() {
     echo "   --delete            Clean up and remove demo projects and objects"
     echo "   --verify            Verify the demo is deployed correctly"
     echo "   --idle              Make all demo servies idle"
-    echo 
+    echo
     echo "Options:"
     echo "   --user              The admin user for the demo projects. mandatory if logged in as system:admin"
     echo "   --maven-mirror-url  Use the given Maven repository for builds. If not specifid, a Nexus container is deployed in the demo"
@@ -122,7 +122,7 @@ GITHUB_ACCOUNT=${GITHUB_ACCOUNT:-heatmiser}
 GITHUB_REF=${GITHUB_REF:-master}
 GITHUB_URI=https://github.com/$GITHUB_ACCOUNT/coolstore-microservice.git
 
-# maven 
+# maven
 MAVEN_MIRROR_URL=${ARG_MAVEN_MIRROR_URL:-http://nexus.$PRJ_CI.svc.cluster.local:8081/content/groups/public}
 
 GOGS_USER=developer
@@ -204,7 +204,7 @@ function create_projects() {
   echo "Creating project $PRJ_COOLSTORE_PROD"
   oc new-project $PRJ_COOLSTORE_PROD --display-name='CoolStore PROD' --description='CoolStore Production Environment' >/dev/null
   echo "Creating project $PRJ_INVENTORY"
-  oc new-project $PRJ_INVENTORY --display-name='Inventory TEST' --description='Inventory Test Environment' >/dev/null
+  oc new-project $PRJ_INVENTORY --display-name='Inventory DEV' --description='Inventory Dev Environment' >/dev/null
   echo "Creating project $PRJ_DEVELOPER"
   oc new-project $PRJ_DEVELOPER --display-name='Developer Project' --description='Personal Developer Project' >/dev/null
 
@@ -273,7 +273,7 @@ function wait_for_nexus_to_be_ready() {
 # Deploy Gogs
 function deploy_gogs() {
   echo_header "Deploying Gogs git server..."
-  
+
   local _TEMPLATE="https://raw.githubusercontent.com/OpenShiftDemos/gogs-openshift-docker/master/openshift/gogs-persistent-template.yaml"
   if [ "$ARG_EPHEMERAL" = true ] ; then
     _TEMPLATE="https://raw.githubusercontent.com/OpenShiftDemos/gogs-openshift-docker/master/openshift/gogs-template.yaml"
@@ -352,7 +352,7 @@ EOM
 # Deploy Jenkins
 function deploy_jenkins() {
   echo_header "Deploying Jenkins..."
-  
+
   if [ "$ARG_EPHEMERAL" = true ] ; then
     oc new-app jenkins-ephemeral -l app=jenkins -p MEMORY_LIMIT=1Gi -n $PRJ_CI
   else
@@ -394,7 +394,7 @@ function deploy_coolstore_test_env() {
   # scale down to zero if minimal
   if [ "$ARG_MINIMAL" == true ] ; then
     scale_down_deployments $PRJ_COOLSTORE_TEST coolstore-gw web-ui inventory cart catalog catalog-mongodb inventory-postgresql pricing
-  fi  
+  fi
 }
 
 # Deploy Coolstore into Coolstore PROD project
@@ -421,7 +421,7 @@ function deploy_coolstore_prod_env() {
   # scale down most pods to zero if minimal
   if [ "$ARG_MINIMAL" = true ] ; then
     scale_down_deployments $PRJ_COOLSTORE_PROD cart turbine-server hystrix-dashboard pricing
-  fi  
+  fi
 }
 
 # Deploy Inventory service into Inventory DEV project
@@ -435,7 +435,7 @@ function deploy_inventory_dev_env() {
   # scale down to zero if minimal
   if [ "$ARG_MINIMAL" = true ] ; then
     scale_down_deployments $PRJ_INVENTORY inventory inventory-postgresql
-  fi  
+  fi
 }
 
 function build_images() {
@@ -458,7 +458,7 @@ function promote_images() {
   # wait for builds
   for buildconfig in coolstore-gw web-ui inventory cart catalog pricing
   do
-    wait_while_empty "$buildconfig image" 600 "oc get builds -n $PRJ_COOLSTORE_TEST | grep $buildconfig | grep -v Running"
+    wait_while_empty "$buildconfig image" 900 "oc get builds -n $PRJ_COOLSTORE_TEST | grep $buildconfig | grep -v Running"
     sleep 10
   done
 
@@ -525,11 +525,11 @@ function verify_build_and_deployments() {
   echo_header "Verifying build and deployments"
   # verify builds
   local _BUILDS_FAILED=false
-  for buildconfig in coolstore-gw web-ui inventory cart catalog 
+  for buildconfig in coolstore-gw web-ui inventory cart catalog
   do
     if [ -n "$(oc get builds -n $PRJ_COOLSTORE_TEST | grep $buildconfig | grep Failed)" ] && [ -z "$(oc get builds -n $PRJ_COOLSTORE_TEST | grep $buildconfig | grep Complete)" ]; then
       _BUILDS_FAILED=true
-      echo "WARNING: Build $project/$buildconfig has failed. Starging a new build..."
+      echo "WARNING: Build $project/$buildconfig has failed. Starting a new build..."
       oc start-build $buildconfig -n $PRJ_COOLSTORE_TEST --wait
     fi
   done
@@ -572,7 +572,7 @@ function deploy_guides() {
 
   if [ "$ARG_MINIMAL" = true ] ; then
     scale_down_deployments $PRJ_CI guides
-  fi  
+  fi
 }
 
 function make_idle() {
@@ -625,7 +625,7 @@ case "$ARG_COMMAND" in
         delete_projects
         exit 0
         ;;
-      
+
     verify)
         echo "Verifying MSA demo..."
         print_info
@@ -640,7 +640,7 @@ case "$ARG_COMMAND" in
 
     *)
         echo "Deploying MSA demo..."
-        create_projects 
+        create_projects
         print_info
         deploy_nexus
         wait_for_nexus_to_be_ready
