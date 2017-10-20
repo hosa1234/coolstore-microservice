@@ -10,7 +10,7 @@ metadata:
     tags: microservice,jboss,spring
   name: coolstore
 objects:
-- apiVersion: v1
+- apiVersion: v1.1
   groupNames: null
   kind: RoleBinding
   metadata:
