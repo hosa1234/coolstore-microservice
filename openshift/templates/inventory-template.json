@@ -23,7 +23,7 @@
       "description": "Git source URI for application",
       "displayName": "Git repository",
       "name": "GIT_URI",
-      "value": "https://github.com/heatmiser/coolstore-microservice",
+      "value": "https://github.com/hosa1234/coolstore-microservice",
       "required": true
     },
     {
