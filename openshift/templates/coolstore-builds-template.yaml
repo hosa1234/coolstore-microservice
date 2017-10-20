@@ -303,7 +303,7 @@ parameters:
   displayName: Git source repository
   name: GIT_URI
   required: true
-  value: https://github.com/heatmiser/coolstore-microservice
+  value: https://github.com/hosa1234/coolstore-microservice
 - description: Git branch/tag reference
   displayName: Git branch/tag reference
   name: GIT_REF
